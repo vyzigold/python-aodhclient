@@ -24,7 +24,7 @@ from aodhclient import exceptions
 from aodhclient.i18n import _
 from aodhclient import utils
 
-ALARM_TYPES = ['event', 'composite', 'threshold',
+ALARM_TYPES = ['prometheus' ,'event', 'composite', 'threshold',
                'gnocchi_resources_threshold',
                'gnocchi_aggregation_by_metrics_threshold',
                'gnocchi_aggregation_by_resources_threshold',
@@ -440,6 +440,12 @@ class CliAlarmCreate(show.ShowOne):
                           'query'])
         alarm['event_rule'] = utils.dict_from_parsed_args(
             parsed_args, ['event_type', 'query'])
+        alarm['prometheus_rule'] = (
+            utils.dict_from_parsed_args(parsed_args,
+                                        ['granularity', 'comparison_operator',
+                                         'threshold', 'aggregation_method',
+                                         'evaluation_periods', 'metric',
+                                         'resource_id', 'resource_type']))
         alarm['gnocchi_resources_threshold_rule'] = (
             utils.dict_from_parsed_args(parsed_args,
                                         ['granularity', 'comparison_operator',
